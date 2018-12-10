@@ -1,18 +1,19 @@
 #Problem Solving With Python - Charlie Webb - 1823045
 import csv
 import random
+import numpy as np
 
 #1A
 def series_score(sailor, crop=1):
     #Sort list in ascending order. Final item will be worst race. Crop with default variable "crop"
-    sortedlist = sorted(sailor[1])[:-crop]
     #Return sum of all items in list
-    return sum(sortedlist)
+    return sum(sorted(sailor[1])[:-crop])
 
 #1B
-def sort_series(sailors):
+def sort_series(sailors, crop=1):
     #Return sorted list, sorted by key of their series_score, ties broken with the first element of the list
-    return sorted(sailors, key= lambda x: (series_score(x), x[1][0]))
+    #Give option to user to change number of cropped races - will be useful during report
+    return sorted(sailors, key= lambda x: (series_score(x, crop), x[1][0]))
 
 #1C        
 def read_sailor_data(file):
@@ -29,7 +30,7 @@ def generate_performances(dictionary):
     dictout = {}
     for key in dictionary:
         #Normalvariate function with mu and sigma
-        dictout[key] = random.normalvariate(dictionary[key][0], dictionary[key][1])
+        dictout[key] = np.random.normal(dictionary[key][0], dictionary[key][1])
     return dictout
 
 #1E
@@ -39,7 +40,7 @@ def calculate_finishing_order(dictionary):
 
 #1F
 results = {}
-#Below code extracts names from csv file, allowing names to be changed without editing raw code
+#Below code extracts names from csv file, allowing names to be changed without editing raw code - no hardcoding!
 with open('sailordata.csv') as file:
     for row in csv.reader(file):
         #Ignore column headers
